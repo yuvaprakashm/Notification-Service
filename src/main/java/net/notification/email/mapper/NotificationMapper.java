@@ -5,7 +5,7 @@ import org.mapstruct.Mapper;
 import net.notification.email.entity.Notification;
 import net.notification.email.vo.NotificationVo;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface NotificationMapper {
 
 	NotificationVo toVo(Notification notification);

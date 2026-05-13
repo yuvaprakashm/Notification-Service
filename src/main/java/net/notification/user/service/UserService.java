@@ -16,14 +16,11 @@ public class UserService {
 	private final UserRepository userRepository;
 	private final ApplicationEventPublisher publisher;
 	
-	public User createdUser(UserVo userVo) {
+	public User createUser(UserVo userVo) {
 
 		User user = User.builder().name(userVo.getName()).email(userVo.getEmail()).build();
-
 		User savedUser = userRepository.save(user);
-
 		publisher.publishEvent(new UserCreatedEvent(this, savedUser));
-
 		return savedUser;
 	}
 }

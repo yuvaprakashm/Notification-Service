@@ -1,13 +1,13 @@
 package net.notification.email.event;
 
-import java.time.LocalDateTime;
-
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.notification.email.entity.Notification;
+import net.notification.email.enums.NotificationType;
 import net.notification.email.repository.NotificationRepository;
 import net.notification.user.entity.User;
 import net.notification.user.event.UserCreatedEvent;
@@ -19,15 +19,14 @@ public class NotificationEventListener {
 
 	private final NotificationRepository notificationRepository;
 	
+	@Async
 	@EventListener
 	public void handleUserCreatedEvent(UserCreatedEvent event) {
 
 		User user = event.getUser();
-
 		Notification notification = Notification.builder().userId(user.getId())
-				.message("Welcome " + user.getEmail() + "! Your Account has been created Sucessfully.").isRead(false)
-				.createdAt(LocalDateTime.now()).build();
-
+				.message("Welcome " + user.getEmail() + "! Your Account has been created Sucessfully.")
+				.type(NotificationType.EMAIL).isRead(false).build();
 		notificationRepository.save(notification);
 
 		log.info("Notification created for user: {}", user.getId());

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import net.notification.email.entity.Notification;
 import net.notification.email.service.NotificationService;
 import net.notification.email.vo.NotificationVo;
 
@@ -20,6 +21,11 @@ public class NotificationController {
 	
 	private final NotificationService notificationService;
 	
+	@GetMapping
+	public List<Notification> findAllNotifications() {
+		return notificationService.findAll();
+	}
+
 	@GetMapping("/user/{userId}")
 	public List<NotificationVo> getNotifications(@PathVariable Long userId,
 			@RequestParam(required = false) Boolean read) {

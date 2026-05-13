@@ -40,4 +40,8 @@ public class NotificationService {
 		notification.setRead(true);
 		return notificationMapper.toVo(notificationRepository.save(notification));
 	}
+
+	public List<Notification> findAll() {
+		return notificationRepository.findAll();
+	}
 }

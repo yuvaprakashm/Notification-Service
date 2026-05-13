@@ -30,7 +30,7 @@ public class NotificationEventListener {
 				.message("Welcome " + user.getEmail() + "! Your Account has been created Sucessfully.")
 				.type(NotificationType.EMAIL).isRead(false).build();
 		notificationRepository.save(notification);
-		emailService.sendEmail(user.getEmail(), "Welcome to Notification Service",
+		emailService.sendEmail(user.getEmail(), "Welcome",
 				"Hello " + user.getName() + ", your account has been created successfully.");
 		log.info("Notification created for user: {}", user.getId());
 	}

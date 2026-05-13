@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.notification.email.entity.Notification;
 import net.notification.email.enums.NotificationType;
 import net.notification.email.repository.NotificationRepository;
+import net.notification.email.service.EmailService;
 import net.notification.user.entity.User;
 import net.notification.user.event.UserCreatedEvent;
 
@@ -18,7 +19,8 @@ import net.notification.user.event.UserCreatedEvent;
 public class NotificationEventListener {
 
 	private final NotificationRepository notificationRepository;
-	
+	private final EmailService emailService;
+
 	@Async
 	@EventListener
 	public void handleUserCreatedEvent(UserCreatedEvent event) {
@@ -28,7 +30,8 @@ public class NotificationEventListener {
 				.message("Welcome " + user.getEmail() + "! Your Account has been created Sucessfully.")
 				.type(NotificationType.EMAIL).isRead(false).build();
 		notificationRepository.save(notification);
-
+		emailService.sendEmail(user.getEmail(), "Welcome",
+				"Hello " + user.getName() + ", your account has been created successfully.");
 		log.info("Notification created for user: {}", user.getId());
 	}
 }
